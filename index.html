@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Idontneedsunlight</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="sketch.js" defer></script>
+</head>
+<body>
+    <main>
+        <section id="title-screen" class="screen" aria-labelledby="game-title">
+            <header class="title-band">
+                <img id="game-title" src="img/floom.png" alt="Floom">
+            </header>
+            <div class="title-content">
+                <button id="start-button" class="image-button start-button" type="button" aria-label="Start game"><img src="img/startbutton.png" alt=""></button>
+            </div>
+        </section>
+        <section id="game-screen" class="screen" aria-label="Game" hidden>
+            <header class="game-hud">
+                <h2 id="date">Day 1</h2>
+                <div class="sunlight-meter">
+                    <div class="meter-label-row">
+                        <span id="meter-label">Hold to fill</span>
+                    </div>
+                    <div id="meter-track" class="meter-track" role="progressbar" aria-labelledby="meter-label" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+                        <div id="meter-fill" class="meter-fill"></div>
+                    </div>
+                </div>
+            </header>
+            <div id="character-area" class="character-area" aria-live="polite" hidden>
+                <img id="shroom-character" class="shroom-character" src="img/a1.png" alt="Agari the mushroom">
+                <div id="flower-overlay" class="flower-overlay" aria-hidden="true"></div>
+            </div>
+            <footer class="story-controls">
+                <div id="dialogue-bubble" class="speech-bubble player-bubble" role="button" tabindex="0" aria-label="Continue dialogue" aria-live="polite">
+                    <span id="dialogue-speaker" class="speaker">You</span>
+                    <p id="dialogue-text">...</p>
+                    <label id="name-entry" class="name-entry" for="player-name" hidden>
+                        Your name
+                        <input id="player-name" name="player-name" type="text" maxlength="24" autocomplete="given-name" placeholder="Enter your name">
+                    </label>
+                </div>
+                <button id="next-day-button" class="game-button continue-button" type="button" hidden>Next day</button>
+                <button id="button" class="image-button sunlight-button" type="button" aria-label="Hold for sunlight" hidden><img src="img/sunlight.png" alt=""></button>
+            </footer>
+        </section>
+        <section id="ending-screen" class="screen" aria-label="Ending" hidden>
+            <img class="ending-logo" src="img/floom.png" alt="Floom">
+            <p class="ending-quote">“I'm a mushroom...Or so I thought”</p>
+        </section>
+    </main>
+</body>
+</html>

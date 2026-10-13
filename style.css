@@ -1,0 +1,359 @@
+
+* {
+    box-sizing: border-box;
+    font-family: inherit;
+}
+
+:root {
+    color-scheme: dark;
+    font-family: "Caveat", cursive;
+    font-optical-sizing: auto;
+    color: #fff;
+    background: #18151d;
+}
+
+body {
+    min-width: 320px;
+    height: 100vh;
+    height: 100dvh;
+    min-height: 0;
+    margin: 0;
+    overflow: hidden;
+}
+
+main,
+.screen {
+    width: 100%;
+    height: 100vh;
+    height: 100dvh;
+    min-height: 0;
+}
+
+.screen[hidden] {
+    display: none !important;
+}
+
+#title-screen {
+    display: grid;
+    grid-template-rows: minmax(120px, 24vh) 1fr;
+    background: #8551c8;
+}
+
+#ending-screen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1.25rem;
+    padding: 1.5rem;
+    background-color: #000;
+    color: #fff;
+    text-align: center;
+}
+
+.ending-logo {
+    display: block;
+    width: min(65vw, 280px);
+    max-height: 28dvh;
+    object-fit: contain;
+}
+
+.ending-quote {
+    margin: 0;
+    color: #fff;
+    font-size: clamp(0.95rem, 4vw, 1.2rem);
+}
+
+.title-band {
+    display: grid;
+    place-items: center;
+    padding: env(safe-area-inset-top) 1rem 0;
+    background: transparent;
+}
+
+#game-title {
+    max-width: 100%;
+    max-height: 75%;
+    object-fit: contain;
+    transform: translateY(7vh);
+}
+
+.title-content {
+    display: grid;
+    place-items: center;
+    padding: 2rem 1.5rem calc(2rem + env(safe-area-inset-bottom));
+}
+
+.game-button {
+    min-height: 48px;
+    padding: 0.65rem 1.25rem;
+    border: 2px solid rgb(255 255 255 / 85%);
+    border-radius: 999px;
+    background: #17131e;
+    color: #fff;
+    font: inherit;
+    font-size: 1rem;
+    font-weight: 650;
+    touch-action: manipulation;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.image-button {
+    display: grid;
+    place-items: center;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+    touch-action: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.image-button[hidden],
+.character-area[hidden] {
+    display: none !important;
+}
+
+.image-button img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.start-button {
+    width: clamp(100px, 28vw, 150px);
+    height: clamp(100px, 28vw, 150px);
+}
+
+.start-button:active,
+.sunlight-button:active {
+    transform: scale(0.94);
+}
+
+.game-button:active {
+    transform: scale(0.97);
+}
+
+#game-screen {
+    position: relative;
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr) auto;
+    justify-items: center;
+    gap: 0.5rem;
+    padding: calc(0.8rem + env(safe-area-inset-top)) 1rem calc(0.8rem + env(safe-area-inset-bottom));
+    background: #191d2e url("img/bg.png") center / cover no-repeat;
+}
+
+#game-screen::before {
+    position: absolute;
+    z-index: 3;
+    inset: 0;
+    background: rgb(255 221 75 / var(--sunlight-intensity, 0));
+    content: "";
+    pointer-events: none;
+}
+
+.game-hud {
+    width: min(100%, 520px);
+    display: grid;
+    gap: 0.65rem;
+    z-index: 2;
+}
+
+#date {
+    margin: 0;
+    font-size: 1.2rem;
+}
+
+.meter-label-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 0.6rem;
+    font-size: 0.9rem;
+}
+
+.meter-label-row span:last-child {
+    opacity: 1;
+}
+
+.sunlight-meter {
+    width: 80%;
+    justify-self: center;
+}
+
+.meter-track {
+    width: 100%;
+    height: 30px;
+    overflow: hidden;
+    border: 4px solid rgb(0 0 0 / 30%);
+    border-radius: 999px;
+    background: rgb(0 0 0 / 40%);
+}
+
+.meter-fill {
+    width: 0;
+    height: 100%;
+    border-radius: inherit;
+    background: #ffcf55;
+}
+
+.sunlight-button {
+    width: clamp(74px, 20vw, 112px);
+    height: clamp(74px, 20vw, 112px);
+    border-radius: 50%;
+}
+
+.game-hud,
+.character-area,
+.story-controls {
+    position: relative;
+    z-index: 4;
+}
+
+.character-area {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: min(100%, 520px);
+    height: min(50dvh, 400px);
+    display: grid;
+    place-items: center;
+    overflow: visible;
+    transform: translate(-50%, -50%);
+}
+
+.shroom-character {
+    display: block;
+    width: auto;
+    height: min(50dvh, 400px);
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    filter: drop-shadow(0 8px 10px rgb(0 0 0 / 20%));
+}
+
+.flower-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.flower-overlay img {
+    position: absolute;
+    top: 5%;
+    left: 50%;
+    width: min(35.7143dvh, 285.72px);
+    height: min(50dvh, 400px);
+    object-fit: contain;
+    opacity: 1;
+    transform: translateX(-50%);
+    transition: opacity 180ms ease;
+}
+
+.story-controls {
+    width: min(100%, 520px);
+    display: grid;
+    align-content: end;
+    justify-items: center;
+    gap: 0.4rem;
+}
+
+.speech-bubble {
+    width: min(100%, 420px);
+    min-height: 64px;
+    padding: 0.5rem 0.8rem;
+    border: 4px solid rgba(53, 0, 68, 0.8);
+    border-radius: 18px;
+    color: #221b14;
+    box-shadow: 0 3px 10px rgb(0 0 0 / 22%);
+    cursor: pointer;
+}
+
+.speech-bubble:focus-visible {
+    outline: 3px solid #fff;
+    outline-offset: 3px;
+}
+
+.agari-bubble {
+    background: #fffdf4;
+}
+
+.player-bubble {
+    background: #ffe36b;
+}
+
+.speaker {
+    display: block;
+    font-size: 0.7rem;
+    font-weight: 750;
+    line-height: 1;
+}
+
+.speech-bubble p {
+    min-height: 1.2em;
+    margin: 0.15rem 0 0;
+    font-size: 0.95rem;
+}
+
+.name-entry {
+    display: grid;
+    gap: 0.25rem;
+    margin-top: 0.4rem;
+    font-size: 0.8rem;
+    font-weight: 650;
+}
+
+.name-entry[hidden] {
+    display: none;
+}
+
+.name-entry input {
+    width: 100%;
+    min-height: 40px;
+    padding: 0.5rem 0.7rem;
+    border-radius: 10px;
+    border: none;
+    background: #ffe36b;
+    color: #221b14;
+    font: inherit;
+}
+
+.continue-button {
+    min-height: 54px;
+    border: none;
+    background: transparent;
+}
+
+.continue-button[hidden] {
+    display: none;
+}
+
+@media (max-height: 680px) {
+    #game-screen {
+        gap: 0.25rem;
+        padding-top: calc(0.4rem + env(safe-area-inset-top));
+        padding-bottom: calc(0.4rem + env(safe-area-inset-bottom));
+    }
+
+    .game-hud {
+        gap: 0.35rem;
+    }
+
+    .sunlight-meter {
+        padding: 0.5rem 0.75rem 0.65rem;
+    }
+
+    .speech-bubble {
+        min-height: 56px;
+        padding: 0.4rem 0.7rem;
+    }
+
+    .sunlight-button {
+        width: 72px;
+        height: 72px;
+    }
+}
