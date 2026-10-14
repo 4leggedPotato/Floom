@@ -5,6 +5,7 @@ function setgame() {
     const startButton = document.getElementById("start-button");
     const sunlightButton = document.getElementById("button");
     const nextDayButton = document.getElementById("next-day-button");
+    const meterLabel = document.getElementById("meter-label");
     const meterFill = document.getElementById("meter-fill");
     const meterTrack = document.getElementById("meter-track");
     const dayLabel = document.getElementById("date");
@@ -17,7 +18,7 @@ function setgame() {
     const nameEntry = document.getElementById("name-entry");
     const playerNameInput = document.getElementById("player-name");
 
-    if (!titleScreen || !gameScreen || !endingScreen || !startButton || !sunlightButton || !nextDayButton || !meterFill || !meterTrack || !dayLabel || !shroomImage || !flowerOverlay || !dialogueSpeaker || !dialogueText || !dialogueBubble || !characterArea || !nameEntry || !playerNameInput) return;
+    if (!titleScreen || !gameScreen || !endingScreen || !startButton || !sunlightButton || !nextDayButton || !meterLabel || !meterFill || !meterTrack || !dayLabel || !shroomImage || !flowerOverlay || !dialogueSpeaker || !dialogueText || !dialogueBubble || !characterArea || !nameEntry || !playerNameInput) return;
 
     const days = [
         {
@@ -126,6 +127,33 @@ function setgame() {
     let conversationIndex = 0;
     let conversationFinished = false;
     let playerName = "";
+    const dayMusicFiles = {
+        1: "sound/1.mp3",
+        2: "sound/2%20.mp3",
+        4: "sound/4.mp3",
+        7: "sound/7.mp3",
+        10: "sound/dead.mp3",
+    };
+    const sunlightSound = new Audio("sound/sunlight%20finished.wav");
+    sunlightSound.preload = "none";
+    let dayMusic;
+
+    const playAudio = (audio) => {
+        audio.currentTime = 0;
+        audio.play().catch((error) => {
+            console.error("Audio playback failed:", error);
+        });
+    };
+
+    const playDayMusic = () => {
+        if (dayMusic) {
+            dayMusic.pause();
+        }
+        dayMusic = new Audio(dayMusicFiles[days[dayIndex].day]);
+        dayMusic.loop = true;
+        dayMusic.preload = "none";
+        playAudio(dayMusic);
+    };
 
     const getConversation = () => days[dayIndex][conversationStage];
 
@@ -166,6 +194,7 @@ function setgame() {
         sunlightButton.hidden = true;
         sunlightButton.setAttribute("aria-label", "Sunlight gathered");
         showDialogue(getConversation()[conversationIndex]);
+        playAudio(sunlightSound);
     };
 
     const finishConversation = () => {
@@ -187,6 +216,7 @@ function setgame() {
     const updateDay = () => {
         const current = days[dayIndex];
         dayLabel.textContent = `Day ${current.day}`;
+        meterLabel.hidden = current.day !== 1;
         shroomImage.src = `img/${current.images[0]}`;
         flowerOverlay.replaceChildren();
         flowerOverlay.hidden = current.day !== 10;
@@ -241,6 +271,7 @@ function setgame() {
     startButton.addEventListener("click", () => {
         titleScreen.hidden = true;
         gameScreen.hidden = false;
+        playDayMusic();
     });
 
     const advanceConversation = () => {
@@ -298,8 +329,13 @@ function setgame() {
         updateMeter(0);
         updateDay();
         showDialogue(getConversation()[conversationIndex]);
+        playDayMusic();
     });
 
+    const preventNativeImageActions = (event) => event.preventDefault();
+    sunlightButton.addEventListener("contextmenu", preventNativeImageActions);
+    sunlightButton.addEventListener("dragstart", preventNativeImageActions);
+    nextDayButton.addEventListener("contextmenu", preventNativeImageActions);
     sunlightButton.addEventListener("pointerdown", startFilling);
     sunlightButton.addEventListener("pointerup", stopFilling);
     sunlightButton.addEventListener("pointercancel", stopFilling);
