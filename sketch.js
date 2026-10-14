@@ -134,25 +134,8 @@ function setgame() {
         7: "sound/7.mp3",
         10: "sound/dead.mp3",
     };
-    const AudioContextClass = window.AudioContext || window.webkitAudioContext;
-    const audioContext = AudioContextClass ? new AudioContextClass() : null;
-    const sunlightAudio = audioContext ? null : new Audio("sound/sunlight%20finished.mp3");
-    if (sunlightAudio) sunlightAudio.preload = "auto";
-    let sunlightBuffer;
-    const sunlightBufferReady = audioContext ? fetch("sound/sunlight%20finished.mp3")
-        .then((response) => {
-            if (!response.ok) {
-                throw new Error(`Could not load sunlight sound: ${response.status}`);
-            }
-            return response.arrayBuffer();
-        })
-        .then((data) => audioContext ? audioContext.decodeAudioData(data) : null)
-        .then((buffer) => {
-            sunlightBuffer = buffer;
-        })
-        .catch((error) => {
-            console.error("Sunlight sound could not be loaded:", error);
-        }) : Promise.resolve();
+    const sunlightAudio = new Audio("sound/sunlight%20finished.mp3");
+    sunlightAudio.preload = "auto";
     let dayMusic;
 
     const playAudio = (audio) => {
@@ -170,23 +153,6 @@ function setgame() {
         dayMusic.loop = true;
         dayMusic.preload = "none";
         playAudio(dayMusic);
-    };
-
-    const playSunlightSound = async () => {
-        await sunlightBufferReady;
-        if (audioContext && sunlightBuffer) {
-            try {
-                await audioContext.resume();
-                const source = audioContext.createBufferSource();
-                source.buffer = sunlightBuffer;
-                source.connect(audioContext.destination);
-                source.start();
-            } catch (error) {
-                console.error("Sunlight sound playback failed:", error);
-            }
-        } else if (sunlightAudio) {
-            playAudio(sunlightAudio);
-        }
     };
 
     const getConversation = () => days[dayIndex][conversationStage];
@@ -228,7 +194,7 @@ function setgame() {
         sunlightButton.hidden = true;
         sunlightButton.setAttribute("aria-label", "Sunlight gathered");
         showDialogue(getConversation()[conversationIndex]);
-        playSunlightSound();
+        playAudio(sunlightAudio);
     };
 
     const finishConversation = () => {
@@ -305,11 +271,6 @@ function setgame() {
     startButton.addEventListener("click", () => {
         titleScreen.hidden = true;
         gameScreen.hidden = false;
-        if (audioContext) {
-            audioContext.resume().catch((error) => {
-                console.error("Audio could not be started:", error);
-            });
-        }
         playDayMusic();
     });
 
