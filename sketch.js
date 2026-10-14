@@ -136,10 +136,10 @@ function setgame() {
     };
     const AudioContextClass = window.AudioContext || window.webkitAudioContext;
     const audioContext = AudioContextClass ? new AudioContextClass() : null;
-    const sunlightAudio = audioContext ? null : new Audio("sound/sunlight%20finished.wav");
+    const sunlightAudio = audioContext ? null : new Audio("sound/sunlight%20finished.mp3");
     if (sunlightAudio) sunlightAudio.preload = "auto";
     let sunlightBuffer;
-    const sunlightBufferReady = audioContext ? fetch("sound/sunlight%20finished.wav")
+    const sunlightBufferReady = audioContext ? fetch("sound/sunlight%20finished.mp3")
         .then((response) => {
             if (!response.ok) {
                 throw new Error(`Could not load sunlight sound: ${response.status}`);
