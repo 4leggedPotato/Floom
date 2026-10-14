@@ -134,8 +134,11 @@ function setgame() {
         7: "sound/7.mp3",
         10: "sound/dead.mp3",
     };
-    const sunlightAudio = new Audio("sound/sunlight%20finished.mp3");
+    const sunlightAudio = new Audio(new URL("sound/sunlight-finished.mp3", document.baseURI));
     sunlightAudio.preload = "auto";
+    sunlightAudio.addEventListener("error", () => {
+        console.error("Sunlight sound could not be loaded:", sunlightAudio.error);
+    });
     let dayMusic;
 
     const playAudio = (audio) => {
